@@ -9,7 +9,7 @@
 /*| Using the macro:                                                         |*/
 /*|  INPUT_TABLE: source of records to be read by the macro.                 |*/
 /*|  OUTPUT_TABLE: result with the observation read from INPUT_TABLE         |*/
-/*|  STOP_CODITION: use this option as a WHERE clause. Specify a rule to     |*/
+/*|  STOP_CONDITION: use this option as a WHERE clause. Specify a rule to     |*/
 /*|   stop reading the INPUT table and stop macro's execution.               |*/
 /*|  IN_OPT: options to be used in SET statement (obs: do not use WHERE=)    |*/
 /*|  OUT_OPT: options to be used in DATA statement                           |*/
@@ -36,15 +36,15 @@
 /*|  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR           |*/
 /*|  OTHER DEALINGS IN THE SOFTWARE.                                         |*/
 /*|--------------------------------------------------------------------------|*/
-%macro backwards(INPUT_TABLE=, OUTPUT_TABLE=, STOP_CODITION = FALSE, IN_OPT=, OUT_OPT=);
+%macro backwards(INPUT_TABLE=, OUTPUT_TABLE=, STOP_CONDITION = FALSE, IN_OPT=, OUT_OPT=);
 
     PROC SQL; SELECT count(*) FORMAT=best32. INTO :QOBS FROM &INPUT_TABLE. ;QUIT;
 
     DATA &OUTPUT_TABLE. (&OUT_OPT.);
        do k = &QOBS. to 1 by -1;
           SET &INPUT_TABLE. (&IN_OPT.) point=k ;
-          %if (%LENGTH(&STOP_CODITION.) > O) %then %do; 
-             if(&STOP_CODITION.) then stop;
+          %if (%LENGTH(&STOP_CONDITION.) > O) %then %do; 
+             if(&STOP_CONDITION.) then stop;
           %end;
           output;
        end;
@@ -55,6 +55,6 @@
  %backwards(
      INPUT_TABLE   = 
     ,OUTPUT_TABLE  = 
-    ,STOP_CODITION = 
+    ,STOP_CONDITION = 
     ,IN_OPT  = 
     ,OUT_OPT = );
