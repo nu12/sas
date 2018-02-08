@@ -60,6 +60,7 @@ OBS | Specifies the observation that is used to determine the last observation t
 Used to deal with two-digit year values. The two-digit year in dates will always be in the 100-years span that follows the YEARCUTOFF option, as below:
 
 * YEARCUTOFF=1920
+
 Date Expression | Interpreted As
 ---|---
 12/07/41 | 12/07/1941
@@ -68,6 +69,7 @@ Date Expression | Interpreted As
 15Apr95 | 15Apr1995
 
 * YEARCUTOFF=1950
+
 Date Expression | Interpreted As
 ---|---
 12/07/41 | 12/07/2041
